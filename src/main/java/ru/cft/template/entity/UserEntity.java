@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -14,6 +15,8 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "wallet_id")
+    private String walletId = UUID.randomUUID().toString();
     private Long phone;
     private String password;
     @Column(name = "first_name")
@@ -22,8 +25,8 @@ public class UserEntity {
     private String lastName;
     private String email;
     @Column(name = "registration_date")
-    private Date registrationDate;
+    private LocalDate registrationDate;
     @Column(name = "last_update_date")
-    private Date lastUpdateDate;
+    private LocalDate lastUpdateDate;
     private int age;
 }

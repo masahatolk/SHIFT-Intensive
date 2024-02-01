@@ -4,6 +4,7 @@ create table if not exists users
         constraint users_pk
             primary key,
 
+    wallet_id varchar(255) not null,
     phone numeric not null,
     password varchar(255) not null,
     first_name varchar(255) not null,
