@@ -1,20 +1,18 @@
 package ru.cft.template.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 import ru.cft.template.entity.UserEntity;
 import ru.cft.template.exception.UserAgeIsNotAllowed;
 import ru.cft.template.exception.UserAlreadyExistException;
 import ru.cft.template.exception.UserNotFoundException;
-import ru.cft.template.model.User;
+import ru.cft.template.dto.User;
 import ru.cft.template.repository.UserRepo;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class UserService {

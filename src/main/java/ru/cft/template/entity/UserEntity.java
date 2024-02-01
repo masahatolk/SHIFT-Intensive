@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Setter
@@ -29,4 +30,7 @@ public class UserEntity {
     @Column(name = "last_update_date")
     private LocalDate lastUpdateDate;
     private int age;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List <SessionEntity> sessions;
 }

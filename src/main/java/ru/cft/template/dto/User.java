@@ -1,4 +1,4 @@
-package ru.cft.template.model;
+package ru.cft.template.dto;
 
 import jakarta.persistence.Column;
 import lombok.Getter;
