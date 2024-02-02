@@ -3,11 +3,12 @@ package ru.cft.template.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
+import ru.cft.template.dto.User;
 import ru.cft.template.entity.UserEntity;
+import ru.cft.template.entity.WalletEntity;
 import ru.cft.template.exception.UserAgeIsNotAllowed;
 import ru.cft.template.exception.UserAlreadyExistException;
 import ru.cft.template.exception.UserNotFoundException;
-import ru.cft.template.dto.User;
 import ru.cft.template.repository.UserRepo;
 
 import java.lang.reflect.Field;
@@ -20,7 +21,10 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-    public UserEntity registration(UserEntity user) throws UserAlreadyExistException, UserAgeIsNotAllowed {
+    @Autowired
+    private WalletService walletService;
+
+    public void registerUser(UserEntity user) throws UserAlreadyExistException, UserAgeIsNotAllowed {
         if (user.getAge() < 18 || user.getAge() > 100) {
             throw new UserAgeIsNotAllowed("Недопустимый возраст пользователя");
         }
@@ -32,7 +36,14 @@ public class UserService {
         if (userRepo.findByEmail(user.getEmail()) != null) {
             throw new UserAlreadyExistException("Такой email уже занят другим пользователем");
         }
-        return userRepo.save(user);
+
+        WalletEntity wallet = walletService.createWallet();
+
+        user.setWallet(wallet);
+        user.setRegistrationDate(LocalDate.now());
+        user.setLastUpdateDate(LocalDate.now());
+
+        userRepo.save(user);
     }
 
     public User getOneUser(Long id) throws UserNotFoundException {

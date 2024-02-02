@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "sessions")
 public class SessionEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String token = UUID.randomUUID().toString();
     private LocalDate expirationTime;

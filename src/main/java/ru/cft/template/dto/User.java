@@ -30,7 +30,7 @@ public class User {
     public static User toModel(UserEntity entity){
         User model = new User();
         model.setId(entity.getId());
-        model.setWalletId(entity.getWalletId());
+        model.setWalletId(entity.getWallet().getId());
         model.setFirstName(entity.getFirstName());
         model.setLastName(entity.getLastName());
         model.setFullName(entity.getFirstName() + ' ' + entity.getLastName());

@@ -1,10 +1,9 @@
 package ru.cft.template.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.cft.template.dto.NewSessionResponse;
-import ru.cft.template.dto.Session;
+import ru.cft.template.dto.GetSessionResponse;
 import ru.cft.template.entity.SessionEntity;
 import ru.cft.template.entity.UserEntity;
 import ru.cft.template.exception.UserHasNoSessions;
@@ -42,28 +41,28 @@ public class SessionService {
         return NewSessionResponse.toModel(session);
     }
 
-    public List<Session> getAllSessions(Long userId) throws UserHasNoSessions, UserNotFoundException {
+    public List<GetSessionResponse> getAllSessions(Long userId) throws UserHasNoSessions, UserNotFoundException {
         UserEntity user = userRepo.findById(userId).get();
         if (user == null) {
             throw new UserNotFoundException("Пользователь с таким id не найден");
         }
 
-        List<Session> response = new ArrayList<>();
+        List<GetSessionResponse> response = new ArrayList<>();
         Iterable<SessionEntity> sessions = sessionRepo.findAll();
         for (SessionEntity session : sessions) {
             if (Objects.equals(session.getUser().getId(), userId))
-                response.add(Session.toModel(session));
+                response.add(GetSessionResponse.toModel(session));
         }
 
         return response;
     }
 
-    public Session getCurrentSession(String token, Long userId) throws Exception {
+    public GetSessionResponse getCurrentSession(String token, Long userId) throws Exception {
         SessionEntity session = sessionRepo.findByToken(token);
         if (!Objects.equals(session.getUser().getId(), userId))
             throw new Exception("Произошла ошибка");
 
-        return Session.toModel(session);
+        return GetSessionResponse.toModel(session);
     }
 
     public String deleteSession(Long id){

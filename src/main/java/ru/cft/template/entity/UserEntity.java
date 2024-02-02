@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Setter
 @Getter
@@ -14,10 +13,8 @@ import java.util.UUID;
 @Table(name = "users")
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "wallet_id")
-    private String walletId = UUID.randomUUID().toString();
     private Long phone;
     private String password;
     @Column(name = "first_name")
@@ -32,5 +29,9 @@ public class UserEntity {
     private int age;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List <SessionEntity> sessions;
+    private List<SessionEntity> sessions;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "wallet_id", referencedColumnName = "id")
+    private WalletEntity wallet;
 }

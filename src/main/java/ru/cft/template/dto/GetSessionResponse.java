@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Setter
 @Getter
-public class Session {
+public class GetSessionResponse {
     private Long id;
     @Column(name = "user_id")
     private Long userId;
@@ -17,8 +17,8 @@ public class Session {
     private LocalDate expirationTime;
     private Boolean active;
 
-    public static Session toModel(SessionEntity entity){
-        Session model = new Session();
+    public static GetSessionResponse toModel(SessionEntity entity){
+        GetSessionResponse model = new GetSessionResponse();
         model.setId(entity.getId());
         model.setUserId(entity.getUser().getId());
         model.setExpirationTime(entity.getExpirationTime());

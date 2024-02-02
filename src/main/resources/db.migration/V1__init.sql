@@ -1,3 +1,11 @@
+create table if not exists wallets
+(
+    id varchar(255) not null,
+    amount numeric not null,
+    last_update date not null,
+    constraint wallets_pk primary key(id)
+);
+
 create table if not exists users
 (
     id bigserial not null,
@@ -10,7 +18,8 @@ create table if not exists users
     registration_date date not null,
     last_update_date date not null,
     age numeric not null,
-    constraint users_pk primary key(id)
+    constraint users_pk primary key(id),
+    constraint fk_wallets foreign key(wallet_id) references wallets(id)
 );
 
 create table if not exists sessions
