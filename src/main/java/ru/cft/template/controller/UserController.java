@@ -10,6 +10,7 @@ import ru.cft.template.exception.UserNotFoundException;
 import ru.cft.template.service.UserService;
 
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getOneUser(@PathVariable Long id){
+    public ResponseEntity getOneUser(@PathVariable UUID id){
         try{
             return ResponseEntity.ok(userService.getOneUser(id));
         }catch(UserNotFoundException e){
@@ -43,7 +44,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity updateUser(@PathVariable Long id, @RequestBody Map<String, Object> fields){
+    public ResponseEntity updateUser(@PathVariable UUID id, @RequestBody Map<String, Object> fields){
         try{
             return ResponseEntity.ok(userService.updateUserByFields(id, fields));
         } catch(Exception e){

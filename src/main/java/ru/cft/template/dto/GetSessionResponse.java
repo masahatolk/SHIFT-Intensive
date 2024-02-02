@@ -6,13 +6,14 @@ import lombok.Setter;
 import ru.cft.template.entity.SessionEntity;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Setter
 @Getter
 public class GetSessionResponse {
-    private Long id;
+    private UUID id;
     @Column(name = "user_id")
-    private Long userId;
+    private UUID userId;
     @Column(name = "expiration_time")
     private LocalDate expirationTime;
     private Boolean active;

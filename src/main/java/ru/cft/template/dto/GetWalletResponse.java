@@ -6,13 +6,14 @@ import lombok.Setter;
 import ru.cft.template.entity.WalletEntity;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class GetWalletResponse {
-    private String id;
+    private UUID id;
     @Column(name = "user_id")
-    private Long userId;
+    private UUID userId;
     private Long amount;
     @Column(name = "last_update")
     private LocalDate lastUpdate;

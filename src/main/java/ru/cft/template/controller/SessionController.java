@@ -11,6 +11,7 @@ import ru.cft.template.exception.UserNotFoundException;
 import ru.cft.template.service.SessionService;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -32,7 +33,7 @@ public class SessionController {
     }
 
     @GetMapping("/{userId}/sessions")
-    public ResponseEntity getAllSessions(@PathVariable Long userId) {
+    public ResponseEntity getAllSessions(@PathVariable UUID userId) {
         try {
             return ResponseEntity.ok(sessionService.getAllSessions(userId));
         } catch (Exception e) {
@@ -42,7 +43,7 @@ public class SessionController {
 
     @GetMapping("/{userId}/sessions/current")
     public ResponseEntity newSession(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String token,
-                                     @PathVariable Long userId) {
+                                     @PathVariable UUID userId) {
         try {
             token = token.replace("Bearer ", "");
             return ResponseEntity.ok(sessionService.getCurrentSession(token, userId));
@@ -52,7 +53,7 @@ public class SessionController {
     }
 
     @DeleteMapping("/sessions/{id}")
-    public ResponseEntity deleteSession (@PathVariable Long id){
+    public ResponseEntity deleteSession (@PathVariable UUID id){
         try{
             return ResponseEntity.ok(sessionService.deleteSession(id));
         }catch (Exception e){

@@ -7,13 +7,14 @@ import ru.cft.template.entity.SessionEntity;
 import ru.cft.template.entity.UserEntity;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Setter
 @Getter
 public class NewSessionResponse {
-    private Long id;
+    private UUID id;
     @Column(name = "user_id")
-    private Long userId;
+    private UUID userId;
     private String token;
     @Column(name = "expiration_time")
     private LocalDate expirationTime;

@@ -1,6 +1,6 @@
 create table if not exists wallets
 (
-    id varchar(255) not null,
+    id uuid not null,
     amount numeric not null,
     last_update date not null,
     constraint wallets_pk primary key(id)
@@ -8,8 +8,8 @@ create table if not exists wallets
 
 create table if not exists users
 (
-    id bigserial not null,
-    wallet_id varchar(255) not null,
+    id uuid not null,
+    wallet_id uuid not null,
     phone numeric not null,
     password varchar(255) not null,
     first_name varchar(255) not null,
@@ -24,8 +24,8 @@ create table if not exists users
 
 create table if not exists sessions
 (
-    id bigserial not null,
-    user_id bigserial not null,
+    id uuid not null,
+    user_id uuid not null,
     token varchar(255) not null,
     expiration_time date not null,
     active bool not null,

@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class SessionService {
@@ -41,7 +42,7 @@ public class SessionService {
         return NewSessionResponse.toModel(session);
     }
 
-    public List<GetSessionResponse> getAllSessions(Long userId) throws UserHasNoSessions, UserNotFoundException {
+    public List<GetSessionResponse> getAllSessions(UUID userId) throws UserHasNoSessions, UserNotFoundException {
         UserEntity user = userRepo.findById(userId).get();
         if (user == null) {
             throw new UserNotFoundException("Пользователь с таким id не найден");
@@ -57,7 +58,7 @@ public class SessionService {
         return response;
     }
 
-    public GetSessionResponse getCurrentSession(String token, Long userId) throws Exception {
+    public GetSessionResponse getCurrentSession(String token, UUID userId) throws Exception {
         SessionEntity session = sessionRepo.findByToken(token);
         if (!Objects.equals(session.getUser().getId(), userId))
             throw new Exception("Произошла ошибка");
@@ -65,7 +66,7 @@ public class SessionService {
         return GetSessionResponse.toModel(session);
     }
 
-    public String deleteSession(Long id){
+    public String deleteSession(UUID id){
         sessionRepo.deleteById(id);
         return "Пользователь успешно вышел из аккаунта";
     }

@@ -14,6 +14,7 @@ import ru.cft.template.repository.UserRepo;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -46,7 +47,7 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public User getOneUser(Long id) throws UserNotFoundException {
+    public User getOneUser(UUID id) throws UserNotFoundException {
         UserEntity user = userRepo.findById(id).get();
         if (user == null) {
             throw new UserNotFoundException("Пользователь с таким id не найден");
@@ -54,7 +55,7 @@ public class UserService {
         return User.toModel(user);
     }
 
-    public User updateUserByFields(Long id, Map<String, Object> fields) {
+    public User updateUserByFields(UUID id, Map<String, Object> fields) {
         UserEntity existingUser = userRepo.findById(id).get();
 
         fields.forEach((key, value) -> {

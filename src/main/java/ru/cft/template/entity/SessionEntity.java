@@ -14,7 +14,7 @@ import java.util.UUID;
 public class SessionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
     private String token = UUID.randomUUID().toString();
     private LocalDate expirationTime;
     private Boolean active = true;

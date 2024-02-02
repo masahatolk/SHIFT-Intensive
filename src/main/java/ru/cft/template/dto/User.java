@@ -6,13 +6,14 @@ import lombok.Setter;
 import ru.cft.template.entity.UserEntity;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Setter
 @Getter
 public class User {
-    private Long id;
+    private UUID id;
     @Column(name = "wallet_id")
-    private String walletId;
+    private UUID walletId;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
