@@ -2,13 +2,12 @@ package ru.cft.template.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.cft.template.dto.NewSessionResponse;
 import ru.cft.template.dto.GetSessionResponse;
+import ru.cft.template.dto.NewSessionResponse;
 import ru.cft.template.entity.SessionEntity;
 import ru.cft.template.entity.UserEntity;
-import ru.cft.template.exception.UserHasNoSessions;
+import ru.cft.template.exception.ServiceException;
 import ru.cft.template.exception.UserIncorrectPassword;
-import ru.cft.template.exception.UserNotFoundException;
 import ru.cft.template.repository.SessionRepo;
 import ru.cft.template.repository.UserRepo;
 
@@ -26,10 +25,10 @@ public class SessionService {
     @Autowired
     private UserRepo userRepo;
 
-    public NewSessionResponse newSession(Long phone, String password) throws UserNotFoundException, UserIncorrectPassword {
+    public NewSessionResponse newSession(Long phone, String password) throws ServiceException, UserIncorrectPassword {
         UserEntity user = userRepo.findByPhone(phone);
         if (user == null) {
-            throw new UserNotFoundException("Пользователь с таким номером не найден");
+            throw new ServiceException("Пользователь с таким номером не найден");
         }
         if (!Objects.equals(user.getPassword(), password)) {
             throw new UserIncorrectPassword("Неверный пароль");
@@ -42,10 +41,10 @@ public class SessionService {
         return NewSessionResponse.toModel(session);
     }
 
-    public List<GetSessionResponse> getAllSessions(UUID userId) throws UserHasNoSessions, UserNotFoundException {
+    public List<GetSessionResponse> getAllSessions(UUID userId) throws ServiceException {
         UserEntity user = userRepo.findById(userId).get();
         if (user == null) {
-            throw new UserNotFoundException("Пользователь с таким id не найден");
+            throw new ServiceException("Пользователь с таким id не найден");
         }
 
         List<GetSessionResponse> response = new ArrayList<>();
@@ -66,8 +65,7 @@ public class SessionService {
         return GetSessionResponse.toModel(session);
     }
 
-    public String deleteSession(UUID id){
+    public void deleteSession(UUID id){
         sessionRepo.deleteById(id);
-        return "Пользователь успешно вышел из аккаунта";
     }
 }

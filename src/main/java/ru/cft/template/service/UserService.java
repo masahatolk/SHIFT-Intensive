@@ -6,9 +6,8 @@ import org.springframework.util.ReflectionUtils;
 import ru.cft.template.dto.User;
 import ru.cft.template.entity.UserEntity;
 import ru.cft.template.entity.WalletEntity;
-import ru.cft.template.exception.UserAgeIsNotAllowed;
 import ru.cft.template.exception.UserAlreadyExistException;
-import ru.cft.template.exception.UserNotFoundException;
+import ru.cft.template.exception.ServiceException;
 import ru.cft.template.repository.UserRepo;
 
 import java.lang.reflect.Field;
@@ -25,9 +24,9 @@ public class UserService {
     @Autowired
     private WalletService walletService;
 
-    public void registerUser(UserEntity user) throws UserAlreadyExistException, UserAgeIsNotAllowed {
+    public void registerUser(UserEntity user) throws UserAlreadyExistException, ServiceException {
         if (user.getAge() < 18 || user.getAge() > 100) {
-            throw new UserAgeIsNotAllowed("Недопустимый возраст пользователя");
+            throw new ServiceException("Недопустимый возраст пользователя");
         }
 
         if (userRepo.findByPhone(user.getPhone()) != null) {
@@ -47,10 +46,10 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public User getOneUser(UUID id) throws UserNotFoundException {
+    public User getOneUser(UUID id) throws ServiceException {
         UserEntity user = userRepo.findById(id).get();
         if (user == null) {
-            throw new UserNotFoundException("Пользователь с таким id не найден");
+            throw new ServiceException("Пользователь с таким id не найден");
         }
         return User.toModel(user);
     }

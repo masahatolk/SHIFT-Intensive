@@ -4,9 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.cft.template.entity.UserEntity;
-import ru.cft.template.exception.UserAgeIsNotAllowed;
+import ru.cft.template.exception.ServiceException;
 import ru.cft.template.exception.UserAlreadyExistException;
-import ru.cft.template.exception.UserNotFoundException;
 import ru.cft.template.service.UserService;
 
 import java.util.Map;
@@ -20,35 +19,35 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity registration(@RequestBody UserEntity user){
+    public Object registration(@RequestBody UserEntity user){
         try{
             userService.registerUser(user);
-            return ResponseEntity.ok("Пользователь успешно зарегистрирован");
-        }catch(UserAlreadyExistException | UserAgeIsNotAllowed e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return "Пользователь успешно зарегистрирован";
+        }catch(UserAlreadyExistException | ServiceException e){
+            return e.getMessage();
         }
         catch(Exception e){
-            return ResponseEntity.badRequest().body("Произошла ошибка");
+            return "Произошла ошибка";
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getOneUser(@PathVariable UUID id){
+    public Object getOneUser(@PathVariable UUID id){
         try{
-            return ResponseEntity.ok(userService.getOneUser(id));
-        }catch(UserNotFoundException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return userService.getOneUser(id);
+        }catch(ServiceException e){
+            return e.getMessage();
         } catch(Exception e){
-            return ResponseEntity.badRequest().body("Произошла ошибка");
+            return "Произошла ошибка";
         }
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity updateUser(@PathVariable UUID id, @RequestBody Map<String, Object> fields){
+    public Object updateUser(@PathVariable UUID id, @RequestBody Map<String, Object> fields){
         try{
-            return ResponseEntity.ok(userService.updateUserByFields(id, fields));
+            return userService.updateUserByFields(id, fields);
         } catch(Exception e){
-            return ResponseEntity.badRequest().body("Произошла ошибка");
+            return "Произошла ошибка";
         }
     }
 }
